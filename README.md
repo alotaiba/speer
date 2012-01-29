@@ -6,9 +6,8 @@ Before you install speer, you need speex, and libspeex-dev:
 
     sudo apt-get update
     sudo apt-get install build-essential pkg-config speex libspeex-dev
-    wget the_source.tar.gz
-    tar xzvf the_source.tar.gz
-    cd the_source
+    wget --no-check-certificate https://github.com/alotaiba/speer/tarball/release -O - | tar xz
+    cd alotaiba-speer-*
     ./configure
     make
     sudo make install
