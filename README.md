@@ -2,7 +2,7 @@
 speer is a C library which decodes speex files used in Siri protocol, to PCM 16bit Little Endian. It's used by [Asiri](https://github.com/alotaiba/SiriProxy-Asiri), the [SiriProxy](https://github.com/plamoni/SiriProxy) plugin for multi language.
 
 ## Installation
-Before you install speer, you need the speex, libspeex-dev:
+Before you install speer, you need speex, and libspeex-dev:
 
     sudo apt-get update
     sudo apt-get install build-essential pkg-config speex libspeex-dev
