@@ -1,0 +1,4 @@
+tmp
+.DS_Store
+.exclude_list
+remote.sh
