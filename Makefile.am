@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = subdir-objects foreign
-CFLAGS = -g -Iinclude -Wall -Wextra -std=gnu99
+AM_CFLAGS = -Iinclude -Wall -Wextra -std=gnu99
 
 bin_PROGRAMS = speer
 speer_SOURCES = src/core.c src/speer.c
