@@ -24,26 +24,8 @@ int speer_file_select(const struct dirent *entry)
 
 int speer_file_sort(const struct dirent **a, const struct dirent **b)
 {
-    const char *name1 = (*a)->d_name;
-    const char *name2 = (*b)->d_name;
-    
-    char *tempnum1;
-    char *tempnum2;
-    
-    speer_file_parse_int_part(&tempnum1, &name1);
-    speer_file_parse_int_part(&tempnum2, &name2);
-    
-    if (tempnum1 == NULL || tempnum2 == NULL) {
-        return 0;
-    }
-    
-    int number1 = atoi(tempnum1);
-    int number2 = atoi(tempnum2);
-    
-    tempnum1 = 0;
-    tempnum2 = 0;
-    free(tempnum1);
-    free(tempnum2);
+    int number1 = speer_file_parse_int_part((*a)->d_name);
+    int number2 = speer_file_parse_int_part((*b)->d_name);
     
     if (number1 >= 0 && number1 >= 0) {
         return (number1 - number2);
@@ -52,26 +34,27 @@ int speer_file_sort(const struct dirent **a, const struct dirent **b)
     }
 }
 
-void speer_file_parse_int_part(char **output, const char **file_name)
+int speer_file_parse_int_part(const char *file_name)
 {
+    int retvalue = 0;
     regex_t reg;
     regmatch_t matches[1];
     //Look for any file that has numbers appeneded, i.e. input-3.spx
     char *pattern = "[0-9]+";
     regcomp(&reg, pattern, REG_EXTENDED);
     
-    if (regexec(&reg, *file_name, 1, matches,0) == 0) {
+    if (regexec(&reg, file_name, 1, matches,0) == 0) {
         int len = (int)(matches[0].rm_eo - matches[0].rm_so);
-        *output = malloc(sizeof(char)*(len+1));
-        strncpy(*output, ((*file_name) + matches[0].rm_so), len);
+        char *output = malloc(sizeof(char)*(len+1));
+        strncpy(output, (file_name + matches[0].rm_so), len);
         //Terminate the last character
         output[len+1] = '\0';
-    } else {
-        output = NULL;
+        retvalue = atoi(output);
     }
     
     regfree(&reg);
     
+    return retvalue;
 }
 
 int speer_speex_convert_to_raw_bytes(short ***bytes, const char *file_name, int *frames, int *frame_size)
@@ -109,7 +92,11 @@ int speer_speex_convert_to_raw_bytes(short ***bytes, const char *file_name, int 
         return 0;
     }
     //Read whole file contents into buffer
-    fread(buffer, 1, input_file_len, input_file);
+    size_t read_state = fread(buffer, 1, input_file_len, input_file);
+    if (read_state <= 0) {
+        fprintf(stderr, "Error reading from input file!\n");
+        return 0;
+    }
     
     speex_bits_read_from(&bits, buffer, (int)input_file_len);
     int i = 0;
@@ -185,6 +172,5 @@ int speer_write_speex_to_file(const char *input_dir, const char *output_dir)
         printf("Output file saved: %s\n", output_file_path);
     }
     fclose(output_file);
-    
     return 1;
 }

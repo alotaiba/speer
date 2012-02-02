@@ -32,6 +32,6 @@ int speer_write_speex_to_file(const char *input_dir, const char *output_dir);
 //Helper functions used internally
 int speer_file_select(const struct dirent *entry);
 int speer_file_sort(const struct dirent **a, const struct dirent **b);
-void speer_file_parse_int_part(char **output, const char **file_name);
+int speer_file_parse_int_part(const char *file_name);
 
 #endif
