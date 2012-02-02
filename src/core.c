@@ -149,7 +149,6 @@ int speer_write_speex_to_file(const char *input_dir, const char *output_dir)
     
     int status = 0;
     for (int i = 0; i < count; ++i) {
-        printf("Converted: %s\n", files[i]->d_name);
         char input_file_path[1024];
         sprintf(input_file_path, "%s/%s", input_dir, files[i]->d_name);
         short **speex_bytes;
