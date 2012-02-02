@@ -1,4 +1,4 @@
-AC_INIT([Speer], [0.1.1])
+AC_INIT([Speer], [0.0.2])
 AM_INIT_AUTOMAKE([1.10 no-define foreign])
 AC_CONFIG_HEADERS([config.h])
 
